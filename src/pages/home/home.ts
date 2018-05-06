@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
+import { TodoProvider } from "../../providers/todo/todo";
 
 @Component({
   selector: 'page-home',
@@ -8,9 +9,13 @@ import { NavController, AlertController } from 'ionic-angular';
 export class HomePage {
 
   public todos = [];
-
-  constructor(public navCtrl: NavController, private alertController: AlertController) {
-
+ 
+  constructor(
+    private todoProvider: TodoProvider,
+    public navCtrl: NavController, 
+    private alertController: AlertController
+  ) {
+    this.todos = this.todoProvider.getTodos();
   }
 
   openTodoAlert(){
@@ -29,7 +34,7 @@ export class HomePage {
           text: "Add Todo",
           handler: (inputData) => {
             let todoText = inputData.addTodoInput;
-            this.todos.push(todoText);
+            this.todoProvider.addTodo(todoText);
           }
         }
       ] 
