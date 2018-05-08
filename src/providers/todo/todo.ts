@@ -10,7 +10,8 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class TodoProvider {
 
-  public todos = [];
+  private todos = [];
+  private archivedTodos = [];
 
   constructor(public http: HttpClient) {
     console.log('Hello TodoProvider Provider');
@@ -20,8 +21,17 @@ export class TodoProvider {
     return this.todos;
   }
 
+  getArchivedTodos(){
+    return this.archivedTodos;
+  }
+
   addTodo(todo){
     this.todos.push(todo); 
+  }
+
+  archiveTodo(todoIndex){
+    this.archivedTodos.push(this.todos[todoIndex]);
+    this.todos.splice(todoIndex, 1);
   }
 
 }

@@ -32,6 +32,10 @@ export class HomePage {
     reorderArray(this.todos, $event);
   }
 
+  archiveTodo(todoIndex){
+    this.todoProvider.archiveTodo(todoIndex);
+  }
+
   openTodoAlert(){
     let addTodoAlert = this.alertController.create({
       title: "Add a Todo",

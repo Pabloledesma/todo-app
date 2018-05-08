@@ -14,5 +14,9 @@
 
 
 <ion-content padding>
-
+  <ion-list>
+    <ion-item *ngFor="let aTodo of archivedTodos">
+      {{aTodo}}
+    </ion-item>
+  </ion-list>
 </ion-content>
