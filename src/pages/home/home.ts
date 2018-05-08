@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, reorderArray } from 'ionic-angular';
+import { NavController, AlertController, reorderArray, ToastController } from 'ionic-angular';
 import { TodoProvider } from "../../providers/todo/todo";
 import { ArchivedTodosPage } from "../archived-todos/archived-todos";
 
@@ -13,6 +13,7 @@ export class HomePage {
   public reorderIsEnabled = false;
 
   constructor(
+    private toastController: ToastController,
     private todoProvider: TodoProvider,
     public navCtrl: NavController, 
     private alertController: AlertController
@@ -30,6 +31,41 @@ export class HomePage {
   
   itemReordered($event){
     reorderArray(this.todos, $event);
+  }
+
+  editTodo(todoIndex){
+    let editTodoAlert = this.alertController.create({
+      title: "Edit Todo",
+      message: "Enter a todo",
+      inputs:[
+        {
+          type: "text",
+          name: "editTodoInput",
+          value: this.todos[todoIndex]
+        }
+      ],
+      buttons: [
+        {text: "Cancel"},
+        {
+          text: "Edit todo",
+          handler: (data) => {
+            this.todoProvider.editTodo(data.editTodoInput, todoIndex);
+
+            editTodoAlert.onDidDismiss(() => {
+              let addTodoToast = this.toastController.create({
+                message: "Todo edited successfully!",
+                duration: 2000
+              });
+  
+              addTodoToast.present();
+            });
+          }
+        }
+      ] 
+    });
+
+    editTodoAlert.present();
+    
   }
 
   archiveTodo(todoIndex){
@@ -53,6 +89,15 @@ export class HomePage {
           handler: (inputData) => {
             let todoText = inputData.addTodoInput;
             this.todoProvider.addTodo(todoText);
+
+            addTodoAlert.onDidDismiss(() => {
+              let addTodoToast = this.toastController.create({
+                message: "Todo added successfully!",
+                duration: 2000
+              });
+  
+              addTodoToast.present();
+            });
           }
         }
       ] 
