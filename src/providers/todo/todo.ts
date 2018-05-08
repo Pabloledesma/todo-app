@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { HttpClient } from '@angular/common/http';
 
 /*
   Generated class for the TodoProvider provider.
@@ -13,7 +12,7 @@ export class TodoProvider {
 
   public todos = [];
 
-  constructor(public http: Http) {
+  constructor(public http: HttpClient) {
     console.log('Hello TodoProvider Provider');
   }
 
